@@ -8,6 +8,7 @@ using VoteWave.Infrastructure.Auth.Configuration;
 using VoteWave.Infrastructure.Auth.Options;
 using VoteWave.Infrastructure.EF;
 using VoteWave.Infrastructure.Logging;
+using VoteWave.Infrastructure.Seeding;
 using VoteWave.Shared.Abstractions.Auth;
 using VoteWave.Shared.Abstractions.Commands;
 using VoteWave.Shared.Queries;
@@ -43,6 +44,9 @@ public static class Extensions
         services.AddJwtAuthentication(configuration);
 
         services.AddScoped<RequestLoggingMiddleware>();
+
+        // Register DatabaseSeeder for seeding roles and admin user
+        services.AddScoped<DatabaseSeeder>();
 
         return services;
     }
