@@ -1,21 +1,34 @@
+using VoteWave.Infrastructure;
+using VoteWave.Infrastructure.Auth.Configuration;
+using VoteWave.Infrastructure.Auth.Options;
+using VoteWave.Shared;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+builder.Services.AddShared();
+builder.Services.AddInfrastructure();
 builder.Services.AddControllersWithViews();
+
+// add JwtOptions configuring
+builder.Services.Configure<JwtOptions>(
+    builder.Configuration.GetSection("JwtOptions"));
+
+builder.Services.AddJwtAuthentication(builder.Configuration);
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 
 app.UseHttpsRedirection();
 app.UseRouting();
 
+app.UseShared();
+
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapStaticAssets();
