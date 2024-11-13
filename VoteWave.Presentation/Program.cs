@@ -41,7 +41,7 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseRouting();
 
-app.UseShared();
+//app.UseShared();
 app.UseInfrastructureMiddlewares();
 
 app.UseAuthentication();
@@ -53,6 +53,12 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}")
     .WithStaticAssets();
+app.UseWhen(context => context.Request.Path.StartsWithSegments("/api"),
+    appBuilder =>
+    {
+        appBuilder.UseShared(); // for Exception Middleware
+    });
+
 
 await app.SeedAsync();
 app.Run();

@@ -29,9 +29,21 @@ public class AccountController(ICommandDispatcher commandDispatcher,
     {
         if (!ModelState.IsValid)
             return View(model);
-
-        var command = new RegisterUser(model.Username, model.Email, model.Password);
-        await _commandDispatcher.DispatchAsync(command);
+        try
+        {
+            var command = new RegisterUser(model.Username, model.Email, model.Password);
+            await _commandDispatcher.DispatchAsync(command);
+        }
+        catch (UserAlreadyExistsException)
+        {
+            ModelState.AddModelError(string.Empty, "User already exists with this username/email.");
+            return View(model);
+        }
+        catch
+        {
+            ModelState.AddModelError(string.Empty, "An unexpected error occurred. Please try again.");
+            return View(model);
+        }
 
         return RedirectToAction(nameof(Login));
     }
@@ -70,7 +82,7 @@ public class AccountController(ICommandDispatcher commandDispatcher,
             ModelState.AddModelError(string.Empty, "Invalid username or password.");
             return View(model);
         }
-        catch (Exception ex)
+        catch
         {
             ModelState.AddModelError(string.Empty, "An unexpected error occurred. Please try again.");
             return View(model);
