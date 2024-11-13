@@ -41,7 +41,7 @@ public static class Extensions
 
         // Register other infrastructure services (e.g., JWT options, authentication)
         services.Configure<JwtOptions>(configuration.GetSection("JwtOptions"));
-        services.AddJwtAuthentication(configuration);
+        //services.AddJwtAuthentication(configuration);
 
         services.AddScoped<RequestLoggingMiddleware>();
 

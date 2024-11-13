@@ -25,7 +25,7 @@ public class DatabaseSeeder(WriteDbContext context,
     {
         // Ensure roles exist
         await EnsureRoleExists("Admin");
-        await EnsureRoleExists("Reader");
+        await EnsureRoleExists("User");
 
         // Ensure admin user exists
         await EnsureAdminUserExists("admin@example.com", "Admin");

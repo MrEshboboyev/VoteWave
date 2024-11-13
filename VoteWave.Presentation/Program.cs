@@ -2,7 +2,10 @@ using VoteWave.Application;
 using VoteWave.Infrastructure;
 using VoteWave.Infrastructure.Auth.Options;
 using VoteWave.Infrastructure.Seeding;
+using VoteWave.Presentation.Services.IServices;
+using VoteWave.Presentation.Services;
 using VoteWave.Shared;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +17,18 @@ builder.Services.AddControllersWithViews();
 // add JwtOptions configuring
 builder.Services.Configure<JwtOptions>(
     builder.Configuration.GetSection("JwtOptions"));
+
+builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+builder.Services.AddScoped<ITokenProvider, TokenProvider>();
+
+// adding authentication
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(options =>
+    {
+        options.ExpireTimeSpan = TimeSpan.FromHours(10);
+        options.LoginPath = "/Account/Login";
+        options.AccessDeniedPath = "/Account/AccessDenied";
+    });
 
 var app = builder.Build();
 
