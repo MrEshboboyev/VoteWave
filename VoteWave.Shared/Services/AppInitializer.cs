@@ -21,7 +21,7 @@ internal sealed class AppInitializer(IServiceProvider serviceProvider) : IHosted
 
         foreach (var dbContextType in dbContextTypes)
         {
-            if (scope.ServiceProvider.GetRequiredService<DbContext>() 
+            if (scope.ServiceProvider.GetRequiredService(dbContextType) 
                 is not DbContext dbContext) continue;
             
             await dbContext.Database.MigrateAsync(cancellationToken);
