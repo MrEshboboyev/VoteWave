@@ -1,5 +1,4 @@
 using VoteWave.Infrastructure;
-using VoteWave.Infrastructure.Auth.Configuration;
 using VoteWave.Infrastructure.Auth.Options;
 using VoteWave.Shared;
 
@@ -13,8 +12,6 @@ builder.Services.AddControllersWithViews();
 builder.Services.Configure<JwtOptions>(
     builder.Configuration.GetSection("JwtOptions"));
 
-builder.Services.AddJwtAuthentication(builder.Configuration);
-
 var app = builder.Build();
 
 if (!app.Environment.IsDevelopment())
@@ -27,6 +24,7 @@ app.UseHttpsRedirection();
 app.UseRouting();
 
 app.UseShared();
+app.UseInfrastructureMiddlewares();
 
 app.UseAuthentication();
 app.UseAuthorization();
