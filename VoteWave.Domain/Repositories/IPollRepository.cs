@@ -7,4 +7,5 @@ public interface IPollRepository
     Task<Poll> GetByIdAsync(Guid id);
     Task AddAsync(Poll poll);
     Task UpdateAsync(Poll poll);
+    Task DeleteAsync(Poll poll);
 }

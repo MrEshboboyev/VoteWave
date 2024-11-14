@@ -7,7 +7,10 @@ using VoteWave.Domain.ValueObjects;
 namespace VoteWave.Infrastructure.EF.Config;
 
 internal sealed class WriteConfiguration : IEntityTypeConfiguration<User>,
-                                           IEntityTypeConfiguration<Role>
+                                           IEntityTypeConfiguration<Role>,
+                                           IEntityTypeConfiguration<Poll>,
+                                           IEntityTypeConfiguration<Option>,
+                                           IEntityTypeConfiguration<Vote>
 {
     public void Configure(EntityTypeBuilder<User> builder)
     {
@@ -73,5 +76,76 @@ internal sealed class WriteConfiguration : IEntityTypeConfiguration<User>,
             .HasConversion(roleNameConverter)
             .HasColumnName("Name")
             .IsRequired();
+    }
+
+    public void Configure(EntityTypeBuilder<Poll> builder)
+    {
+        builder.ToTable("Polls");
+        builder.HasKey(p => p.Id);
+        builder.Property(p => p.Id).IsRequired();
+
+        var titleConverter = new ValueConverter<PollTitle, string>(
+            title => title.Value,
+            value => new PollTitle(value)
+        );
+
+        builder.Property(p => p.Title)
+               .HasConversion(titleConverter)
+               .HasColumnName("Title")
+               .IsRequired();
+
+        builder.HasMany(p => p.Options)
+               .WithOne()
+               .HasForeignKey(o => o.PollId)
+               .OnDelete(DeleteBehavior.Cascade);
+    }
+
+    public void Configure(EntityTypeBuilder<Option> builder)
+    {
+        builder.ToTable("Options");
+        builder.HasKey(o => o.Id);
+        builder.Property(o => o.Id).IsRequired();
+
+        var textConverter = new ValueConverter<OptionText, string>(
+            text => text.Value,
+            value => new OptionText(value)
+        );
+
+        builder.Property(o => o.Text)
+               .HasConversion(textConverter)
+               .HasColumnName("Text")
+               .IsRequired();
+
+        builder.Property(o => o.VoteCount)
+               .HasColumnName("VoteCount")
+               .IsRequired();
+
+        builder.HasOne<Poll>()
+               .WithMany(p => p.Options)
+               .HasForeignKey(o => o.PollId)
+               .OnDelete(DeleteBehavior.Cascade);
+    }
+
+    public void Configure(EntityTypeBuilder<Vote> builder)
+    {
+        builder.ToTable("Votes");
+        builder.HasKey(v => v.Id);
+        builder.Property(v => v.Id).IsRequired();
+
+        builder.Property(v => v.PollId)
+               .HasColumnName("PollId")
+               .IsRequired();
+
+        builder.Property(v => v.OptionId)
+               .HasColumnName("OptionId")
+               .IsRequired();
+
+        builder.Property(v => v.UserId)
+               .HasColumnName("UserId")
+               .IsRequired();
+
+        builder.Property(v => v.VotedAt)
+               .HasColumnName("VotedAt")
+               .IsRequired();
     }
 }

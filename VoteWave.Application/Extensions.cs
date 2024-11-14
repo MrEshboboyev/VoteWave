@@ -11,6 +11,9 @@ public static class Extensions
         services.AddCommands();
         services.AddSingleton<IUserFactory, UserFactory>();
         services.AddSingleton<IRoleFactory, RoleFactory>();
+        services.AddSingleton<IPollFactory, PollFactory>();
+        services.AddSingleton<IOptionFactory, OptionFactory>();
+        services.AddSingleton<IVoteFactory, VoteFactory>();
 
         return services;
     }

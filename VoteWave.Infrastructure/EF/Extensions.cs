@@ -17,6 +17,9 @@ internal static class Extensions
         // adding lifetimes
         services.AddScoped<IUserRepository, PostgresUserRepository>();
         services.AddScoped<IRoleRepository, PostgresRoleRepository>();
+        services.AddScoped<IPollRepository, PostgresPollRepository>();
+        services.AddScoped<IOptionRepository, PostgresOptionRepository>();
+        services.AddScoped<IVoteRepository, PostgresVoteRepository>();
 
         var options = configuration.GetOptions<PostgresOptions>("Postgres");
         services.AddDbContext<ReadDbContext>(ctx =>

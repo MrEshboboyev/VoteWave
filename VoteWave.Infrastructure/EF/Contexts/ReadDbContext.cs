@@ -8,6 +8,9 @@ public sealed class ReadDbContext(DbContextOptions<ReadDbContext> options) : DbC
 {
     public DbSet<UserReadModel> Users { get; set; }
     public DbSet<RoleReadModel> Roles { get; set; }
+    public DbSet<PollReadModel> Polls { get; set; }
+    public DbSet<OptionReadModel> Options { get; set; }
+    public DbSet<VoteReadModel> Votes { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -17,6 +20,9 @@ public sealed class ReadDbContext(DbContextOptions<ReadDbContext> options) : DbC
         var configuration = new ReadConfiguration();
         modelBuilder.ApplyConfiguration<UserReadModel>(configuration);
         modelBuilder.ApplyConfiguration<RoleReadModel>(configuration);
+        modelBuilder.ApplyConfiguration<PollReadModel>(configuration);
+        modelBuilder.ApplyConfiguration<OptionReadModel>(configuration);
+        modelBuilder.ApplyConfiguration<VoteReadModel>(configuration);
 
         base.OnModelCreating(modelBuilder);
     }
