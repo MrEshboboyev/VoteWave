@@ -6,5 +6,4 @@ public class PollReadModel
     public int Version { get; set; }
     public string Title { get; set; }
     public ICollection<OptionReadModel> Options { get; set; } = [];
-    public ICollection<VoteReadModel> Votes { get; set; } = [];
 }

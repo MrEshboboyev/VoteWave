@@ -59,7 +59,6 @@ internal sealed class ReadConfiguration : IEntityTypeConfiguration<UserReadModel
         builder.ToTable("Votes");
         builder.HasKey(v => v.Id);
 
-        builder.Property(v => v.PollId).IsRequired();
         builder.Property(v => v.OptionId).IsRequired();
         builder.Property(v => v.UserId).IsRequired();
         builder.Property(v => v.VotedAt).IsRequired();

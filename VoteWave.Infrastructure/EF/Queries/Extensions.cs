@@ -23,8 +23,7 @@ public static class Extensions
                 Text = o.Text,
                 VoteCount = o.VoteCount,
                 Votes = o.Votes.Select(v => v.AsDto())
-            }),
-            UserVotes = readModel.Votes.Select(v => v.AsDto())
+            })
         };
 
     public static OptionDto AsDto(this OptionReadModel readModel)
@@ -41,7 +40,6 @@ public static class Extensions
         {
             Id = readModel.Id,
             OptionId = readModel.OptionId,
-            PollId = readModel.PollId,
             UserId = readModel.UserId,
             VotedAt = readModel.VotedAt
         };

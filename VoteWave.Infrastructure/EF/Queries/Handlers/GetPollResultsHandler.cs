@@ -15,7 +15,7 @@ public class GetPollResultsHandler(ReadDbContext context)
     public async Task<PollResultsDto> HandleAsync(GetPollResults query)
         => await _polls
             .Include(p => p.Options)
-            .Include(p => p.Votes)
+            .ThenInclude(o => o.Votes)
             .Where(p => p.Id == query.PollId)
             .AsNoTracking()
             .Select(p => p.AsResultsDto())
