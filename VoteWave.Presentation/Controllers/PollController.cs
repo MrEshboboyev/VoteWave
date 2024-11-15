@@ -71,7 +71,6 @@ namespace VoteWave.Presentation.Controllers
             return View("Create", model); // Return to the Create view with updated model
         }
 
-
         // POST: Polls/Vote
         [HttpPost]
         public async Task<IActionResult> Vote(Guid pollId, Guid optionId)
@@ -83,7 +82,8 @@ namespace VoteWave.Presentation.Controllers
 
         private Guid GetUserId()
         {
-            return Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            return Guid.Parse(userId!);
         }
     }
 }

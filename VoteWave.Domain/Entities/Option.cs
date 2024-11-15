@@ -9,11 +9,12 @@ public class Option : AggregateRoot<Guid>
     private Guid _pollId;
     private OptionText _text;
     private int _voteCount;
+    private readonly List<Vote> _votes = [];
 
-    // public getters
     public Guid PollId => _pollId;
     public OptionText Text => _text;
     public int VoteCount => _voteCount;
+    public IReadOnlyCollection<Vote> Votes => _votes.AsReadOnly();
 
     internal Option() { }
 
@@ -21,21 +22,24 @@ public class Option : AggregateRoot<Guid>
     {
         _pollId = pollId;
         _text = text;
-
+        _voteCount = 0; // Ensure initialized
         AddEvent(new OptionCreated(this));
+    }
+
+    public void AddVote(Vote vote)
+    {
+        if (_votes.Any(v => v.UserId == vote.UserId))
+            throw new InvalidOperationException("User has already voted on this option.");
+
+        _votes.Add(vote);
+        _voteCount++;
+
+        AddEvent(new VoteAdded(vote));
     }
 
     public void IncrementVoteCount()
     {
-        _voteCount++;
-
+        _voteCount++; // Useful for direct updates (e.g., bulk voting scenarios)
         AddEvent(new VoteCountIncremented(this));
-    }
-
-    public bool HasUserVoted(Guid userId)
-    {
-        // This method would require tracking individual votes if needed
-        // Stubbed out for current scope, might use in-memory or persistent tracking in the future
-        return false; // Assumes no tracking for now; returns true if user vote is tracked
     }
 }

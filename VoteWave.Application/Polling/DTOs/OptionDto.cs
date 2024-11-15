@@ -5,5 +5,5 @@ public class OptionDto
     public Guid Id { get; set; }
     public string Text { get; set; }
     public int VoteCount { get; set; }
-    public IEnumerable<UserVoteDto> Votes { get; set; }
+    public IEnumerable<VoteDto> Votes { get; set; }
 }

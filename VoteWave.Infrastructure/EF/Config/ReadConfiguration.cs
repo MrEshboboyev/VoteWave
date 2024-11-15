@@ -52,6 +52,10 @@ internal sealed class ReadConfiguration : IEntityTypeConfiguration<UserReadModel
         builder.HasOne<PollReadModel>()
                .WithMany(p => p.Options)
                .HasForeignKey(o => o.PollId);
+
+        builder.HasMany(o => o.Votes)
+               .WithOne()
+               .HasForeignKey(v => v.OptionId);
     }
 
     public void Configure(EntityTypeBuilder<VoteReadModel> builder)

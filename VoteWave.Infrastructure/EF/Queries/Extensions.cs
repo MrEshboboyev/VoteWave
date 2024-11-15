@@ -35,7 +35,7 @@ public static class Extensions
             Votes = readModel.Votes.Select(v => v.AsDto())
         };
 
-    public static UserVoteDto AsDto(this VoteReadModel readModel)
+    public static VoteDto AsDto(this VoteReadModel readModel)
         => new()
         {
             Id = readModel.Id,

@@ -11,7 +11,10 @@ internal class PostgresPollRepository(WriteDbContext writeDbContext) : IPollRepo
     private readonly WriteDbContext _writeDbContext = writeDbContext;
 
     public Task<Poll> GetByIdAsync(Guid id)
-        => _polls.SingleOrDefaultAsync(t => t.Id == id);
+        => _polls
+            .Include(p => p.Options)
+                .ThenInclude(o => o.Votes)
+            .SingleOrDefaultAsync(t => t.Id == id);
 
     public async Task AddAsync(Poll poll)
     {

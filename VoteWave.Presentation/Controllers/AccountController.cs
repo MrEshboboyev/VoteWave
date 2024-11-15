@@ -107,12 +107,19 @@ public class AccountController(ICommandDispatcher commandDispatcher,
 
         var identity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme);
 
-        // adding claims
-        identity.AddClaim(new Claim(JwtRegisteredClaimNames.Sub,
-            jwt.Claims.FirstOrDefault(u => u.Type == JwtRegisteredClaimNames.Sub).Value));
-        identity.AddClaim(new Claim(ClaimTypes.Role,
-            jwt.Claims.FirstOrDefault(u => u.Type == "role").Value));
+        // Add user ID claim
+        var userIdClaim = jwt.Claims.FirstOrDefault(c => c.Type == JwtRegisteredClaimNames.Sub)?.Value;
+        if (userIdClaim != null)
+        {
+            identity.AddClaim(new Claim(ClaimTypes.NameIdentifier, userIdClaim));
+        }
 
+        // Add role claim(s)
+        var roleClaim = jwt.Claims.FirstOrDefault(c => c.Type == "role")?.Value;
+        if (roleClaim != null)
+        {
+            identity.AddClaim(new Claim(ClaimTypes.Role, roleClaim));
+        }
 
         var principal = new ClaimsPrincipal(identity);
         await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);

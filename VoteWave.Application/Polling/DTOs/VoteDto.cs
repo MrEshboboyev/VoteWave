@@ -1,6 +1,6 @@
 ﻿namespace VoteWave.Application.Polling.DTOs;
 
-public class UserVoteDto
+public class VoteDto
 {
     public Guid Id { get; set; }
     public Guid PollId { get; set; }

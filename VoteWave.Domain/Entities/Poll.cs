@@ -45,20 +45,15 @@ public class Poll : AggregateRoot<Guid>
         AddEvent(new DeleteOption(option));
     }
 
-    public void CastVote(Guid optionId, Guid userId)
+    public void CastVote(Vote vote)
     {
-        // Check if the user has already voted on this poll
-        if (_options.Any(option => option.HasUserVoted(userId)))
-        {
-            throw new UserAlreadyVotedException(userId);
-        }
+        var option = _options.FirstOrDefault(o => o.Id == vote.OptionId)
+            ?? throw new InvalidOperationException("Option not found in poll.");
 
-        // Increment vote count for the option
-        var option = GetOption(optionId);
-        option.IncrementVoteCount();
+        option.AddVote(vote);
 
-        // Add a vote event
-        AddEvent(new VoteCasted(this, optionId, userId));
+        // Track state change or raise domain events if required
+        AddEvent(new VoteCasted(this, vote.OptionId, vote.UserId));
     }
 
     private Option GetOption(Guid optionId)
