@@ -1,0 +1,23 @@
+﻿@model IEnumerable<PollDto>
+<h2>Polls</h2>
+<table class="table">
+    <a asp-action="Create">Create Poll</a>
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var poll in Model)
+        {
+            <tr>
+                <td>@poll.Title</td>
+                <td>
+                    <a asp-action="Details" asp-route-pollId="@poll.Id">View</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

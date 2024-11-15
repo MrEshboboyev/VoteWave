@@ -1,0 +1,15 @@
+﻿@model PollResultsDto
+<h2>@Model.Title</h2>
+
+<h3>Options</h3>
+<form asp-action="Vote" method="post">
+    <input type="hidden" name="pollId" value="@Model.Id" />
+    <ul>
+        @foreach (var option in Model.Options)
+        {
+            <li>
+                <button type="submit" name="optionId" value="@option.Id">@option.Text (Votes: @option.VoteCount)</button>
+            </li>
+        }
+    </ul>
+</form>

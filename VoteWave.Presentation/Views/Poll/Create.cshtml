@@ -1,0 +1,23 @@
+﻿@model CreatePollViewModel
+
+<h2>Create New Poll</h2>
+<form asp-action="Create" method="post">
+    <div class="form-group">
+        <label>Title</label>
+        <input asp-for="Title" class="form-control" />
+    </div>
+
+    <h4>Options</h4>
+    <div id="options">
+        @for (int i = 0; i < Model.OptionTexts.Count; i++)
+        {
+            <div class="form-group">
+                <input asp-for="OptionTexts[@i]" class="form-control" />
+                <button type="submit" class="btn btn-danger btn-sm" formaction="@Url.Action("RemoveOption", "Poll")" formmethod="post" name="removeIndex" value="@i">Remove</button>
+            </div>
+        }
+    </div>
+
+    <button type="submit" class="btn btn-success btn-sm" formaction="@Url.Action("AddOption", "Poll")" formmethod="post">Add Option</button>
+    <button type="submit" class="btn btn-primary">Create Poll</button>
+</form>

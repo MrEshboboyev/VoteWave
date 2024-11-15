@@ -2,4 +2,4 @@
 
 namespace VoteWave.Application.Polling.Commands;
 
-public record CreatePoll(string Title) : ICommand;
+public record CreatePoll(string Title, List<string> OptionTexts) : ICommand;
