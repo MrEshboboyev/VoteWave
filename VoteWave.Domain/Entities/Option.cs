@@ -26,6 +26,14 @@ public class Option : AggregateRoot<Guid>
         AddEvent(new OptionCreated(this));
     }
 
+    // update text
+    public void UpdateText(OptionText text)
+    {
+        _text = text;
+
+        AddEvent(new OptionTextUpdated(this));
+    }
+
     public void AddVote(Vote vote)
     {
         if (_votes.Any(v => v.UserId == vote.UserId))

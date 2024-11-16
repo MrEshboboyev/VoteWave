@@ -1,0 +1,40 @@
+﻿@model IEnumerable<PollDto>
+
+<table id="example" class="table table-striped" style="width:100%">
+    <thead>
+        <tr>
+            <th>Title</th>
+            @* <th>Position</th>
+            <th>Office</th>
+            <th>Age</th>
+            <th>Start date</th> *@
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var poll in Model)
+        {
+            <tr>
+                <td>@poll.Title</td>
+                @* <td>System Architect</td>
+                <td>Edinburgh</td>
+                <td>61</td>
+                <td>2011-04-25</td> *@
+                <td>
+                    <a class="btn btn-primary" asp-action="Details" asp-route-pollId="@poll.Id">
+                        <i class="bi bi-arrow-bar-right"></i>
+                    </a>
+                </td>
+            </tr>
+        }
+    <tfoot>
+        <tr>
+            <th>Title</th>
+            @* <th>Position</th>
+            <th>Office</th>
+            <th>Age</th>
+            <th>Start date</th> *@
+            <th>Actions</th>
+        </tr>
+    </tfoot>
+</table>

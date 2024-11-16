@@ -21,6 +21,7 @@ public static class Extensions
             {
                 Id = o.Id,
                 Text = o.Text,
+                PollId = o.PollId,
                 VoteCount = o.VoteCount,
                 Votes = o.Votes.Select(v => v.AsDto())
             })
@@ -31,6 +32,7 @@ public static class Extensions
         {
             Id = readModel.Id,
             Text = readModel.Text,
+            PollId = readModel.PollId,
             VoteCount = readModel.VoteCount,
             Votes = readModel.Votes.Select(v => v.AsDto())
         };

@@ -2,4 +2,4 @@
 
 namespace VoteWave.Application.Polling.Commands;
 
-public record RemoveOptionFromPoll(Guid PollId, Guid OptionId) : ICommand;
+public record UpdatePollOption(Guid PollId, Guid OptionId, string NewText) : ICommand;

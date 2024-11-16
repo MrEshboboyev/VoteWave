@@ -31,6 +31,13 @@ public class Poll : AggregateRoot<Guid>
         AddEvent(new PollCreated(this));
     }
 
+    public void UpdateTitle(PollTitle title)
+    {
+        _title = title;
+
+        AddEvent(new PollTitleUpdated(this));
+    }
+
     public void AddOption(Option option)
     {
         _options.Add(option);

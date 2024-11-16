@@ -1,0 +1,68 @@
+﻿@model PollResultsDto
+
+<div class="container mt-5">
+    <h1 class="text-center">@Model.Title</h1>
+    <p class="text-muted text-center">Manage options for the poll below.</p>
+
+    <div class="table-responsive">
+        <table id="optionsTable" class="table table-bordered table-striped align-middle">
+            <thead class="table-primary">
+                <tr>
+                    <th>Option Text</th>
+                    <th>Votes</th>
+                    <th>Percentage</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var option in Model.Options)
+                {
+                    <tr id="option-@option.Id">
+                        <td>
+                            <span class="option-text">@option.Text</span>
+                            <input type="text" class="form-control option-edit d-none" value="@option.Text" />
+                        </td>
+                        <td>
+                            <span class="vote-count">@option.VoteCount</span>
+                        </td>
+                        <td>
+                            <div class="progress">
+                                <div class="progress-bar bg-success percentage-bar" role="progressbar" style="width: 0%;"
+                                     aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+                                    0%
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="d-flex">
+                                <button class="btn btn-warning btn-sm me-2 btn-update" data-id="@option.Id" 
+                                    data-pollId="@option.PollId">
+                                    <i class="bi bi-pencil"></i> Update
+                                </button>
+                                <button class="btn btn-danger btn-sm me-2 btn-remove" data-id="@option.Id">
+                                    <i class="bi bi-trash"></i> Remove
+                                </button>
+                                <button class="btn btn-success btn-sm d-none btn-save" data-id="@option.Id">
+                                    <i class="bi bi-check"></i> Save
+                                </button>
+                                <button class="btn btn-secondary btn-sm d-none btn-cancel" data-id="@option.Id">
+                                    <i class="bi bi-x"></i> Cancel
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <button class="btn btn-primary mt-3 btn-add-option">
+        <i class="bi bi-plus-circle"></i> Add Option
+    </button>
+
+    <a asp-action="Index" class="btn btn-secondary mt-3">Back to Polls</a>
+</div>
+
+@section Scripts {
+    <script src="~/js/admin/pollDetails.js"></script>
+}
